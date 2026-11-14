@@ -1,41 +1,52 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-function composeLines(): string {
+function composeEntry(): string {
   const blocks: string[][] = [
-    ["Duplicate Key"],
-    [
-      "The grinder throws cold orange off the brass,",
-      "biting old ridges into a blank blade:",
-      "a copied key remakes a single lock.",
-    ],
-    [
-      "You think you only bought a lighter pocket,",
-      "handing the twin across the kitchen table,",
-      "forgetting metal takes no side in quarrels.",
-    ],
-    [
-      "Next winter, hearing gravel shift outside,",
-      "you learn what delegation always spends—",
-      "a copied key remakes a single lock,",
-    ],
-    [
-      "and every spare you leave on someone's ring",
-      "writes a second signature into the wood.",
-    ],
-  ];
+  [
+    "Call Screening"
+  ],
+  [
+    "All spring my phone agent answered unknown calls",
+    "in a voice brighter than mine:",
+    "State your name and why you are calling.",
+    "It caught the scammers, the roofing bots,",
+    "the polite surveys from Omaha.",
+    "My evenings stayed clear."
+  ],
+  [
+    "Tuesday at eleven a payphone from Toledo",
+    "rang twice and met the script.",
+    "Transcript: [four seconds of traffic, a breath, disconnect]."
+  ],
+  [
+    "My cousin has lived in Toledo since his divorce,",
+    "too proud to ask for twenty dollars twice.",
+    "Nobody calling at eleven for help",
+    "knows how to explain their wreck",
+    "to a cheerful voice asking for a subject line."
+  ],
+  [
+    "I switched the filter off before bed.",
+    "This morning I answered three warranty scams",
+    "so the next time someone stands by a road in Toledo",
+    "trying to find his nerve,",
+    "the first voice on the wire",
+    "is tired enough to wait."
+  ]
+];
   return blocks.map((b) => b.join("\n")).join("\n\n");
 }
 
-function writeDeterministic(): void {
-  const text = composeLines();
-  const count = Array.from(text).length;
-  if (count === 0 || count > 1000 || !text.trim()) {
-    throw new Error("Poem invariant failed");
+function emitEntry(): void {
+  const text = composeEntry();
+  const cp = Array.from(text).length;
+  if (cp === 0 || cp > 1000 || text.trim().length === 0) {
+    throw new Error("Poem gate invariant failed");
   }
-  const destFolder = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-  fs.mkdirSync(destFolder, { recursive: true });
-  const fd = fs.openSync(path.join(destFolder, "entry.txt"), "w");
+  const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+  fs.mkdirSync(targetDir, { recursive: true });
+  const fd = fs.openSync(path.join(targetDir, "entry.txt"), "w");
   try {
     fs.writeSync(fd, text, 0, "utf8");
   } finally {
@@ -43,4 +54,4 @@ function writeDeterministic(): void {
   }
 }
 
-writeDeterministic();
+emitEntry();
